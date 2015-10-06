@@ -56,7 +56,7 @@ Noeud* Interpreteur::seqInst() {
   NoeudSeqInst* sequence = new NoeudSeqInst();
   do {
     sequence->ajoute(inst());
-  } while (m_lecteur.getSymbole() == "<VARIABLE>" || m_lecteur.getSymbole() == "si");
+  } while (m_lecteur.getSymbole() == "<VARIABLE>" || m_lecteur.getSymbole() == "si" || m_lecteur.getSymbole() == "tantque");
   // tant que le symbole courant est un debut possible d'instruction...
   return sequence;
 }
@@ -70,6 +70,8 @@ Noeud* Interpreteur::inst() {
   }
   else if (m_lecteur.getSymbole() == "si")
     return instSi();
+  else if (m_lecteur.getSymbole() == "tantque")
+    return instTantQue();  
   else erreur("Instruction incorrecte");
 }
 
@@ -133,5 +135,16 @@ Noeud* Interpreteur::instSi() {
   Noeud* sequence = seqInst();
   testerEtAvancer("finsi");
   return new NoeudInstSi(condition, sequence);
+}
+
+Noeud* Interpreteur::instTantQue() {
+  // <instSi> ::= si ( <condition> ) <seqInst> finsi
+  testerEtAvancer("tantque");
+  testerEtAvancer("(");
+  Noeud* condition = expression();
+  testerEtAvancer(")");
+  Noeud* sequence = seqInst();
+  testerEtAvancer("fintantque");
+  return new NoeudInstTantQue(condition, sequence);
 }
 
