@@ -93,5 +93,18 @@ class NoeudInstTantQue : public Noeud{
     Noeud*  m_sequence;
 };
 
+class NoeudInstPour : public Noeud{
+    public:
+    NoeudInstPour(Noeud* condition1,Noeud* condition2,Noeud* condition3, Noeud* sequence);
+     // Construit une "instruction tantque" avec sa condition et sa séquence d'instruction
+    ~NoeudInstPour() {} // A cause du destructeur virtuel de la classe Noeud
+    int executer(); // Exécute l'instruction tantque : tantque condition vraie on exécute la séquence
+    
+    private:
+    Noeud*  m_condition1;
+    Noeud*  m_condition2;
+    Noeud*  m_condition3;
+    Noeud*  m_sequence;
+};
 
 #endif /* ARBREABSTRAIT_H */

@@ -88,3 +88,12 @@ int NoeudInstTantQue::executer() {
   while (m_condition->executer()) m_sequence->executer();
   return 0; // La valeur renvoyée ne représente rien !
 }
+
+NoeudInstPour::NoeudInstPour(Noeud* condition1,Noeud* condition2,Noeud* condition3, Noeud* sequence)
+: m_condition1(condition1),m_condition2(condition2),m_condition3(condition3), m_sequence(sequence) {
+}
+
+int NoeudInstPour::executer() {
+  for (m_condition1->executer();m_condition2->executer();m_condition3->executer()) m_sequence->executer();
+  return 0; // La valeur renvoyée ne représente rien !
+}

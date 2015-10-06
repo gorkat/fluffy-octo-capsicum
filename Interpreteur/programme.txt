@@ -2,11 +2,15 @@
 # Les lignes de commentaires commencent par #
 procedure principale()
   i= 12+3;
+  l=i;
   si (i>14)
     j=1;
   finsi
-  tantque (i<20)
-    i=i+1;
+  tantque (l<20)
+    l=l+1;
   fintantque
+  pour(t=0;t<10;t=t+1)
+    j=j+1;
+  finpour
 finproc
 # Commentaire Final
