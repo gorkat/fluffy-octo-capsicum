@@ -1,0 +1,6 @@
+procedure principale()
+    x=0;
+    si (x==0)
+      x=1;
+    finsi
+finproc    

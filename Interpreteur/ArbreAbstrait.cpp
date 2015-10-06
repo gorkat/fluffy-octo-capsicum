@@ -18,7 +18,7 @@ int NoeudSeqInst::executer() {
 }
 
 void NoeudSeqInst::ajoute(Noeud* instruction) {
-  if (instruction!=nullptr) m_instructions.push_back(instruction);
+  if (instruction!=NULL) m_instructions.push_back(instruction);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -45,8 +45,8 @@ NoeudOperateurBinaire::NoeudOperateurBinaire(Symbole operateur, Noeud* operandeG
 
 int NoeudOperateurBinaire::executer() {
   int og, od, valeur;
-  if (m_operandeGauche != nullptr) og = m_operandeGauche->executer(); // On évalue l'opérande gauche
-  if (m_operandeDroit != nullptr) od = m_operandeDroit->executer(); // On évalue l'opérande droit
+  if (m_operandeGauche != NULL) og = m_operandeGauche->executer(); // On évalue l'opérande gauche
+  if (m_operandeDroit != NULL) od = m_operandeDroit->executer(); // On évalue l'opérande droit
   // Et on combine les deux opérandes en fonctions de l'opérateur
   if (this->m_operateur == "+") valeur = (og + od);
   else if (this->m_operateur == "-") valeur = (og - od);

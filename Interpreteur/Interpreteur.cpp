@@ -4,7 +4,7 @@
 using namespace std;
 
 Interpreteur::Interpreteur(ifstream & fichier) :
-m_lecteur(fichier), m_table(), m_arbre(nullptr) {
+m_lecteur(fichier), m_table(), m_arbre(NULL) {
 }
 
 void Interpreteur::analyse() {
@@ -103,7 +103,7 @@ Noeud* Interpreteur::expression() {
 
 Noeud* Interpreteur::facteur() {
   // <facteur> ::= <entier> | <variable> | - <facteur> | non <facteur> | ( <expression> )
-  Noeud* fact = nullptr;
+  Noeud* fact = NULL;
   if (m_lecteur.getSymbole() == "<VARIABLE>" || m_lecteur.getSymbole() == "<ENTIER>") {
     fact = m_table.chercheAjoute(m_lecteur.getSymbole()); // on ajoute la variable ou l'entier à la table
     m_lecteur.avancer();
@@ -114,7 +114,7 @@ Noeud* Interpreteur::facteur() {
   } else if (m_lecteur.getSymbole() == "non") { // non <facteur>
     m_lecteur.avancer();
     // on représente le moins unaire (- facteur) par une soustractin binaire (0 - facteur)
-    fact = new NoeudOperateurBinaire(Symbole("non"), facteur(), nullptr);
+    fact = new NoeudOperateurBinaire(Symbole("non"), facteur(), NULL);
   } else if (m_lecteur.getSymbole() == "(") { // expression parenthésée
     m_lecteur.avancer();
     fact = expression();
