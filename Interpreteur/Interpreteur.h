@@ -36,8 +36,8 @@ private:
     Noeud*  instTantQue(); //      <instTantQue> ::= tantque (<expression>) <seqInst> fintanque
     Noeud*  instRepeter(); //
     Noeud*  instPour();    //      <instPour> ::= pour (<expression>) <seqInst> finpour
+    Noeud*  instEcrire();  //      <instEcrire> ::= ecrire(<message>) ;
     /*
-    Noeud*  instEcrire();
     Noeud*  instLire();
      */
     

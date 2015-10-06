@@ -97,3 +97,12 @@ int NoeudInstPour::executer() {
   for (m_condition1->executer();m_condition2->executer();m_condition3->executer()) m_sequence->executer();
   return 0; // La valeur renvoyée ne représente rien !
 }
+
+NoeudInstEcrire::NoeudInstEcrire(Noeud* message) 
+:m_message(message){
+}
+
+int NoeudInstEcrire::executer(){
+    cout << m_message;
+}
+

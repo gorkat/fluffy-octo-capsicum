@@ -106,5 +106,15 @@ class NoeudInstPour : public Noeud{
     Noeud*  m_condition3;
     Noeud*  m_sequence;
 };
-
+class NoeudInstEcrire : public Noeud{
+    public:
+    NoeudInstEcrire(Noeud* message);
+     // Construit une "instruction tantque" avec sa condition et sa séquence d'instruction
+    ~NoeudInstEcrire() {} // A cause du destructeur virtuel de la classe Noeud
+    int executer(); // Exécute l'instruction tantque : tantque condition vraie on exécute la séquence
+    
+    private:
+    Noeud* m_message;    
+};
 #endif /* ARBREABSTRAIT_H */
+
