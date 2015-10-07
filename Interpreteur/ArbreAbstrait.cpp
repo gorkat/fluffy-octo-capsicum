@@ -106,3 +106,15 @@ int NoeudInstEcrire::executer(){
     cout << m_message;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// NoeudRepeter
+////////////////////////////////////////////////////////////////////////////////
+
+NoeudRepeter::NoeudRepeter(Noeud* seqInst, Noeud* condition)
+: m_seqInst(seqInst), m_condition(condition){
+}
+
+int NoeudRepeter::executer(){
+    do {m_seqInst->executer();} while(!m_condition->executer());
+    return 0;
+}

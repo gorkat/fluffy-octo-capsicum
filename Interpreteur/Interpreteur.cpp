@@ -56,7 +56,12 @@ Noeud* Interpreteur::seqInst() {
   NoeudSeqInst* sequence = new NoeudSeqInst();
   do {
     sequence->ajoute(inst());
-  } while (m_lecteur.getSymbole() == "<VARIABLE>" || m_lecteur.getSymbole() == "si" || m_lecteur.getSymbole() == "tantque" || m_lecteur.getSymbole() == "pour" || m_lecteur.getSymbole() =="ecrire");
+  } while (m_lecteur.getSymbole() == "<VARIABLE>" || 
+          m_lecteur.getSymbole() == "si" || 
+          m_lecteur.getSymbole() == "tantque" || 
+          m_lecteur.getSymbole() == "pour" || 
+          m_lecteur.getSymbole() =="ecrire" ||
+          m_lecteur.getSymbole() =="repeter");
   // tant que le symbole courant est un debut possible d'instruction...
   return sequence;
 }
@@ -76,6 +81,8 @@ Noeud* Interpreteur::inst() {
       return instPour();
   else if (m_lecteur.getSymbole()=="ecrire")
       return instEcrire();
+  else if (m_lecteur.getSymbole()=="repeter")
+      return instRepeter();
   else erreur("Instruction incorrecte");
 }
 
@@ -174,4 +181,14 @@ Noeud* Interpreteur::instEcrire(){
     testerEtAvancer(")");
     testerEtAvancer(";");
     //return new NoeudInstEcrire(message);
+}
+
+Noeud* Interpreteur::instRepeter(){
+    testerEtAvancer("repeter");
+    Noeud* instructions = seqInst();
+    testerEtAvancer("jusqua");
+    testerEtAvancer("(");
+    Noeud* condition = expression();
+    testerEtAvancer(")");
+    return new NoeudRepeter(instructions,condition);
 }

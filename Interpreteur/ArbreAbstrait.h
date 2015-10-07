@@ -116,5 +116,16 @@ class NoeudInstEcrire : public Noeud{
     private:
     Noeud* m_message;    
 };
+
+class NoeudRepeter : public Noeud{
+private : 
+    Noeud* m_seqInst;
+    Noeud* m_condition;
+    
+public :
+    NoeudRepeter(Noeud* seqInst, Noeud* condition);
+    ~NoeudRepeter() {}
+    int executer();
+};
 #endif /* ARBREABSTRAIT_H */
 

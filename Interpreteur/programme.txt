@@ -12,5 +12,10 @@ procedure principale()
   pour(t=0;t<10;t=t+1)
     j=j+1;
   finpour
+j = 0;
+repeter
+    j = j + 30;
+jusqua(j > 100)
+
 finproc
 # Commentaire Final
