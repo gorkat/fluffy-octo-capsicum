@@ -71,14 +71,17 @@ class NoeudInstSi : public Noeud {
 // Classe pour représenter un noeud "instruction si"
 //  et ses 2 fils : la condition du si et la séquence d'instruction associée
   public:
-    NoeudInstSi(Noeud* condition, Noeud* sequence);
+    NoeudInstSi(Noeud* conditionsi, Noeud* sequencesi,vector <Noeud*> conditionsinonsi,vector <Noeud*> sequeuncesinonsi,Noeud* sequencesinon);
      // Construit une "instruction si" avec sa condition et sa séquence d'instruction
    ~NoeudInstSi() {} // A cause du destructeur virtuel de la classe Noeud
     int executer();  // Exécute l'instruction si : si condition vraie on exécute la séquence
 
   private:
-    Noeud*  m_condition;
-    Noeud*  m_sequence;
+    Noeud* m_conditionsi;
+    Noeud* m_sequencesi;
+    vector <Noeud*> m_conditionsinonsi;
+    vector <Noeud*> m_sequencesinonsi;
+    Noeud* m_sequencesinon;
 };
 
 class NoeudInstTantQue : public Noeud{

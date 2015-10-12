@@ -71,12 +71,27 @@ int NoeudOperateurBinaire::executer() {
 // NoeudInstSi
 ////////////////////////////////////////////////////////////////////////////////
 
-NoeudInstSi::NoeudInstSi(Noeud* condition, Noeud* sequence)
-: m_condition(condition), m_sequence(sequence) {
+NoeudInstSi::NoeudInstSi(Noeud* conditionsi, Noeud* sequencesi,vector <Noeud*> conditionsinonsi,vector <Noeud*> sequeuncesinonsi,Noeud* sequencesinon)
+: m_conditionsi(conditionsi), m_sequencesi(sequencesi),m_conditionsinonsi(conditionsinonsi),m_sequencesinonsi(sequeuncesinonsi),m_sequencesinon(sequencesinon) {
 }
 
 int NoeudInstSi::executer() {
-  if (m_condition->executer()) m_sequence->executer();
+    int executer=0;
+  for(int i=0; i<m_conditionsinonsi.size();i++){ 
+     if (m_conditionsi->executer() && i==0)
+     {
+         m_sequencesi->executer();
+         executer=1;
+     }
+     if(m_conditionsinonsi[i]->executer()&&i<m_conditionsinonsi.size()&&executer==0){
+         m_sequencesinonsi[i]->executer();
+         executer=1;
+     }
+     if(executer!=1)
+     {    
+         m_sequencesinon->executer();
+     } 
+  }  
   return 0; // La valeur renvoyée ne représente rien !
 }
 
