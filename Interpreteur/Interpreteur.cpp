@@ -199,16 +199,21 @@ Noeud* Interpreteur::instPour() {
 }
 
 Noeud* Interpreteur::instEcrire(){
-    Noeud* message;
+    vector <Noeud*> message;
     testerEtAvancer("ecrire");
     testerEtAvancer("(");
-    if(m_lecteur.getSymbole()=="<CHAINE>"){
-        message = m_table.chercheAjoute(m_lecteur.getSymbole());
-        m_lecteur.avancer();
-    }
-    else{
-        message = expression();
-    }        
+    while(m_lecteur.getSymbole()!=")"){
+        if(m_lecteur.getSymbole()=="<CHAINE>"){
+            message.push_back(m_table.chercheAjoute(m_lecteur.getSymbole()));
+            m_lecteur.avancer();
+        }
+        else{
+            message.push_back(expression());
+        }  
+        if(m_lecteur.getSymbole()==","){
+            m_lecteur.avancer();
+        }
+    }       
     testerEtAvancer(")");
     testerEtAvancer(";");
     return new NoeudInstEcrire(message);

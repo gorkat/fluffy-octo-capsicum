@@ -125,16 +125,31 @@ int NoeudInstPour::executer() {
   return 0; // La valeur renvoyée ne représente rien !
 }
 
-NoeudInstEcrire::NoeudInstEcrire(Noeud* message) 
+NoeudInstEcrire::NoeudInstEcrire(vector <Noeud*> message) 
 :m_message(message){
 }
 
 int NoeudInstEcrire::executer(){
-    if(typeid(*m_message)==typeid(SymboleValue) &&  *((SymboleValue*)m_message)== "<CHAINE>" ){
-        m_message = (Symbole) m_message;
-        cout << m_message->;
-    } else {
-        m_message->executer();
+    int i=0;
+    while(i<m_message.size()){
+        if(typeid(*m_message[i])==typeid(SymboleValue) &&  *((SymboleValue*)m_message[i])== "<CHAINE>" ){
+            Symbole* mess = dynamic_cast<Symbole*>(m_message[i]);
+            string message = mess->getChaine();
+            int p ,j;
+                for(j=0;message[j] != '\0';j++)
+                    {
+                    if (message[j] == '"')  // on a trouve
+                        {
+                        for(p=j;message[p]!=0;p++)
+                            message[p]=message[p+1];
+                        }
+                    }  
+            cout<< message;
+        } else {
+            cout<<m_message[i]->executer();
+            cout << endl;
+        }
+        i++;
     }
     return 0;
 }

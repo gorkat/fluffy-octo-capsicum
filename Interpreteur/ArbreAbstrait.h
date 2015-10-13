@@ -111,13 +111,13 @@ class NoeudInstPour : public Noeud{
 };
 class NoeudInstEcrire : public Noeud{
     public:
-    NoeudInstEcrire(Noeud* message);
+    NoeudInstEcrire(vector <Noeud*> message);
      // Construit une "instruction tantque" avec sa condition et sa séquence d'instruction
     ~NoeudInstEcrire() {} // A cause du destructeur virtuel de la classe Noeud
     int executer(); // Exécute l'instruction tantque : tantque condition vraie on exécute la séquence
     
     private:
-    Noeud* m_message;    
+    vector <Noeud*> m_message;    
 };
 
 class NoeudRepeter : public Noeud{
