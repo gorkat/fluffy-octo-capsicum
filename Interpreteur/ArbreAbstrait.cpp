@@ -76,21 +76,24 @@ NoeudInstSi::NoeudInstSi(Noeud* conditionsi, Noeud* sequencesi,vector <Noeud*> c
 }
 
 int NoeudInstSi::executer() {
-    int executer=0;
-  for(int i=0; i<m_conditionsinonsi.size();i++){ 
-     if (m_conditionsi->executer() && i==0)
+  int executer=0;
+  int i=0;
+  while(executer==0){ 
+     if (m_conditionsi->executer())
      {
          m_sequencesi->executer();
          executer=1;
      }
-     if(m_conditionsinonsi[i]->executer()&&i<m_conditionsinonsi.size()&&executer==0){
+     else if(m_conditionsinonsi[i]->executer()&&i<m_conditionsinonsi.size()){
          m_sequencesinonsi[i]->executer();
          executer=1;
      }
-     if(executer!=1)
+     else if(i==m_conditionsinonsi.size()-1&&executer==0)
      {    
          m_sequencesinon->executer();
+         executer=1;
      } 
+     i++;
   }  
   return 0; // La valeur renvoyée ne représente rien !
 }
