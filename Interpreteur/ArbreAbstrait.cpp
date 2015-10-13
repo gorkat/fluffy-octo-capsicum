@@ -3,6 +3,7 @@
 #include "Symbole.h"
 #include "SymboleValue.h"
 #include "Exceptions.h"
+#include <typeinfo>
 
 ////////////////////////////////////////////////////////////////////////////////
 // NoeudSeqInst
@@ -129,7 +130,13 @@ NoeudInstEcrire::NoeudInstEcrire(Noeud* message)
 }
 
 int NoeudInstEcrire::executer(){
-    cout << m_message;
+    if(typeid(*m_message)==typeid(SymboleValue) &&  *((SymboleValue*)m_message)== "<CHAINE>" ){
+        m_message = (Symbole) m_message;
+        cout << m_message->;
+    } else {
+        m_message->executer();
+    }
+    return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

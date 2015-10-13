@@ -199,12 +199,19 @@ Noeud* Interpreteur::instPour() {
 }
 
 Noeud* Interpreteur::instEcrire(){
+    Noeud* message;
     testerEtAvancer("ecrire");
     testerEtAvancer("(");
-    //Noeud* message = affectation();
+    if(m_lecteur.getSymbole()=="<CHAINE>"){
+        message = m_table.chercheAjoute(m_lecteur.getSymbole());
+        m_lecteur.avancer();
+    }
+    else{
+        message = expression();
+    }        
     testerEtAvancer(")");
     testerEtAvancer(";");
-    //return new NoeudInstEcrire(message);
+    return new NoeudInstEcrire(message);
 }
 
 Noeud* Interpreteur::instRepeter(){
