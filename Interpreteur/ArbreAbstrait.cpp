@@ -112,7 +112,15 @@ NoeudInstPour::NoeudInstPour(Noeud* condition1,Noeud* condition2,Noeud* conditio
 }
 
 int NoeudInstPour::executer() {
-  for (m_condition1->executer();m_condition2->executer();m_condition3->executer()) m_sequence->executer();
+    if(m_condition1!=nullptr){
+        m_condition1->executer();
+    }
+    while(m_condition2->executer()){
+        m_sequence->executer();
+        if(m_condition3!=nullptr){
+            m_condition3->executer();
+        }
+    }
   return 0; // La valeur renvoyée ne représente rien !
 }
 

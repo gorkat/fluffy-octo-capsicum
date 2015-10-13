@@ -178,13 +178,20 @@ Noeud* Interpreteur::instTantQue() {
 
 Noeud* Interpreteur::instPour() {
   // <instSi> ::= si ( <condition> ) <seqInst> finsi
+  Noeud* condition1=NULL;  
+  Noeud* condition3=NULL;
+  
   testerEtAvancer("pour");
   testerEtAvancer("(");
-  Noeud* condition1 = affectation();
+  if(m_lecteur.getSymbole()!=";"){
+      condition1 = affectation();
+  }
   testerEtAvancer(";");
   Noeud* condition2 = expression();
   testerEtAvancer(";");
-  Noeud* condition3 = affectation();
+  if(m_lecteur.getSymbole()!=")"){
+      condition3 = affectation();
+  }
   testerEtAvancer(")");
   Noeud* sequence = seqInst();
   testerEtAvancer("finpour");
