@@ -26,6 +26,6 @@ j = 0;
 repeter
     j = j + 30;
 jusqua(j > 100)
-ecrire("la valeur de i=",i,"a=",a);
+ecrire("la valeur de i+a=",i+a);
 finproc
 # Commentaire Final

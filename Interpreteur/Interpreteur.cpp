@@ -139,17 +139,14 @@ Noeud* Interpreteur::facteur() {
 
 Noeud* Interpreteur::instSi() {
   // <instSi> ::= si ( <condition> ) <seqInst> finsi
-  Noeud* conditionsi;
-  Noeud* sequencesi;
-  Noeud* sequencesinon;
   vector <Noeud*> conditionsinonsi;  
   vector <Noeud*> sequencesinonsi;  
   
   testerEtAvancer("si");
   testerEtAvancer("(");
-  conditionsi = expression();
+  conditionsinonsi.push_back(expression());
   testerEtAvancer(")");
-  sequencesi = seqInst();
+  sequencesinonsi.push_back(seqInst());
   while(m_lecteur.getSymbole() =="sinonsi"){
       testerEtAvancer("sinonsi");
       testerEtAvancer("(");
@@ -159,10 +156,10 @@ Noeud* Interpreteur::instSi() {
   }
   if(m_lecteur.getSymbole() =="sinon"){
       testerEtAvancer("sinon");
-      sequencesinon =seqInst();
+      sequencesinonsi.push_back(seqInst());
   }
   testerEtAvancer("finsi");
-  return new NoeudInstSi(conditionsi, sequencesi,conditionsinonsi,sequencesinonsi,sequencesinon);
+  return new NoeudInstSi(conditionsinonsi,sequencesinonsi);
 }
 
 Noeud* Interpreteur::instTantQue() {

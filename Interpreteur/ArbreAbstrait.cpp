@@ -72,26 +72,21 @@ int NoeudOperateurBinaire::executer() {
 // NoeudInstSi
 ////////////////////////////////////////////////////////////////////////////////
 
-NoeudInstSi::NoeudInstSi(Noeud* conditionsi, Noeud* sequencesi,vector <Noeud*> conditionsinonsi,vector <Noeud*> sequeuncesinonsi,Noeud* sequencesinon)
-: m_conditionsi(conditionsi), m_sequencesi(sequencesi),m_conditionsinonsi(conditionsinonsi),m_sequencesinonsi(sequeuncesinonsi),m_sequencesinon(sequencesinon) {
+NoeudInstSi::NoeudInstSi(vector <Noeud*> conditionsinonsi,vector <Noeud*> sequeuncesinonsi)
+:m_conditionsinonsi(conditionsinonsi),m_sequencesinonsi(sequeuncesinonsi) {
 }
 
 int NoeudInstSi::executer() {
   int executer=0;
   int i=0;
   while(executer==0){ 
-     if (m_conditionsi->executer())
-     {
-         m_sequencesi->executer();
-         executer=1;
-     }
-     else if(m_conditionsinonsi[i]->executer()&&i<m_conditionsinonsi.size()){
+     if(m_conditionsinonsi[i]->executer()&&i<m_conditionsinonsi.size()){
          m_sequencesinonsi[i]->executer();
          executer=1;
      }
-     else if(i==m_conditionsinonsi.size()-1&&executer==0)
+     else if(i==m_conditionsinonsi.size()-1&& m_conditionsinonsi.size()<m_sequencesinonsi.size() &&executer==0)
      {    
-         m_sequencesinon->executer();
+         m_sequencesinonsi[i]->executer();
          executer=1;
      } 
      i++;
@@ -147,10 +142,10 @@ int NoeudInstEcrire::executer(){
             cout<< message;
         } else {
             cout<<m_message[i]->executer();
-            cout << endl;
         }
         i++;
     }
+    cout << endl;
     return 0;
 }
 
