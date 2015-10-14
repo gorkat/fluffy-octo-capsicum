@@ -61,7 +61,8 @@ Noeud* Interpreteur::seqInst() {
           m_lecteur.getSymbole() == "tantque" || 
           m_lecteur.getSymbole() == "pour" || 
           m_lecteur.getSymbole() =="ecrire" ||
-          m_lecteur.getSymbole() =="repeter");
+          m_lecteur.getSymbole() =="repeter" ||
+          m_lecteur.getSymbole() =="lire");
   // tant que le symbole courant est un debut possible d'instruction...
   return sequence;
 }
@@ -83,6 +84,9 @@ Noeud* Interpreteur::inst() {
       return instEcrire();
   else if (m_lecteur.getSymbole()=="repeter")
       return instRepeter();
+  else if (m_lecteur.getSymbole()=="lire"){
+      return instLire();
+  }
   else erreur("Instruction incorrecte");
 }
 
@@ -224,4 +228,22 @@ Noeud* Interpreteur::instRepeter(){
     Noeud* condition = expression();
     testerEtAvancer(")");
     return new NoeudRepeter(instructions,condition);
+}
+
+Noeud* Interpreteur::instLire(){
+       vector<Noeud*> variables;
+       testerEtAvancer("lire");
+       testerEtAvancer("(");
+       while(m_lecteur.getSymbole()!=")"){
+       if(m_lecteur.getSymbole()=="<VARIABLE>"){
+           variables.push_back(m_table.chercheAjoute(m_lecteur.getSymbole())); // on ajoute la variable à la table
+           m_lecteur.avancer();
+       }
+       if(m_lecteur.getSymbole()==","){
+           testerEtAvancer(",");
+       }
+       }
+       testerEtAvancer(")");
+       testerEtAvancer(";");
+       return new NoeudInstLire(variables);
 }

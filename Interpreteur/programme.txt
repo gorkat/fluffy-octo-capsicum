@@ -1,7 +1,7 @@
 # Fichier de test
 # Les lignes de commentaires commencent par #
 procedure principale()
-  i=2;
+  i=14;
   l=i;
   si (i==14)
     a=0;
@@ -27,5 +27,6 @@ repeter
     j = j + 30;
 jusqua(j > 100)
 ecrire("la valeur de i+a=",i+a);
+lire(m,p);
 finproc
 # Commentaire Final

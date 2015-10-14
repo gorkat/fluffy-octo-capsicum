@@ -161,3 +161,15 @@ int NoeudRepeter::executer(){
     do {m_seqInst->executer();} while(!m_condition->executer());
     return 0;
 }
+
+NoeudInstLire::NoeudInstLire(vector <Noeud*> variable):m_variable(variable){}
+
+int NoeudInstLire::executer(){
+    int a;
+    int i =0;
+    while(i<m_variable.size()){
+        cin >> a;
+        ((SymboleValue*) m_variable[i])->setValeur(a);
+        i++;
+    }
+}

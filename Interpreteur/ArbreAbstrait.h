@@ -127,5 +127,15 @@ public :
     ~NoeudRepeter() {}
     int executer();
 };
+
+class NoeudInstLire : public Noeud{
+public:
+    NoeudInstLire(vector <Noeud*> variable);
+    ~NoeudInstLire() {};
+    int executer();
+private:
+    vector <Noeud*> m_variable;
+};
+
 #endif /* ARBREABSTRAIT_H */
 
