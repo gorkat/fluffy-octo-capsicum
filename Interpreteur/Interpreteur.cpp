@@ -247,3 +247,22 @@ Noeud* Interpreteur::instLire(){
        testerEtAvancer(";");
        return new NoeudInstLire(variables);
 }
+
+//////////////////////////////////////////////////
+///////////// Traduction en C++ //////////////////
+//////////////////////////////////////////////////
+
+void Interpreteur::traduitenCpp(ostream & cout, unsigned int indentation) const{
+      cout <<setw(4*indentation)<<""<<"int main() {"<<endl;
+    // Début d’un programme Java
+    // Ecrire en Java la déclaration des variables présentes dans le programme... 
+    // ... variables dont on retrouvera le nom en parcourant la table des symboles ! 
+    // Par exemple, si le programme contient i,j,k, il faudra écrire : int i; int j; int k; ... 
+    getArbre()->traduitenCpp(cout,indentation+1);
+    // lance l'opération traduitenJava sur la racine
+    cout <<setw(4*(indentation+1))<<""<<"return 0;"<<endl ; 
+    cout <<setw(4*indentation)<<"}" <<endl ; 
+    // Fin d’un programme 
+}
+
+

@@ -27,6 +27,9 @@ repeter
     j = j + 30;
 jusqua(j > 100)
 ecrire("la valeur de i+a=",i+a);
-lire(m,p);
+ecrire("saisir m:");
+lire(m);
+ecrire("saisir p:");
+lire(p);
 finproc
 # Commentaire Final
