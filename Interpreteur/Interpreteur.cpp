@@ -254,6 +254,11 @@ Noeud* Interpreteur::instLire(){
 
 void Interpreteur::traduitenCpp(ostream & cout, unsigned int indentation) const{
       cout <<setw(4*indentation)<<""<<"int main() {"<<endl;
+      for(int i = 0; i < m_table.getTaille(); i++){
+          if(m_table[i].operator ==("<VARIABLE>")) {
+              cout << setw(4*indentation) << "" << "int " << m_table[i].getChaine() << ";" << endl;
+          }
+      }
     // Début d’un programme Java
     // Ecrire en Java la déclaration des variables présentes dans le programme... 
     // ... variables dont on retrouvera le nom en parcourant la table des symboles ! 

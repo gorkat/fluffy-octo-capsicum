@@ -24,7 +24,8 @@ void NoeudSeqInst::ajoute(Noeud* instruction) {
 
 void NoeudSeqInst::traduitenCpp(ostream & cout, unsigned int indentation) const{
     for(int i=0;i<m_instructions.size();i++){
-        cout << setw(4*indentation) << "" << m_instructions[i] << endl;
+        m_instructions[i]->traduitenCpp(cout,0);
+        cout<<";"<<endl;
     }
 }
 
@@ -43,9 +44,10 @@ int NoeudAffectation::executer() {
 }
 
 void NoeudAffectation::traduitenCpp(ostream & cout, unsigned int indentation) const{
-    cout<< setw(4*indentation)<<"";
-    m_variable->traduitenCpp(cout,indentation);
+    cout<< setw(4*indentation)<<""<<((Symbole*)m_variable)->getChaine()<<"=";
+//    if (typeid())
     m_expression->traduitenCpp(cout,indentation);    
+    cout<<";"<<endl;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -81,7 +83,12 @@ int NoeudOperateurBinaire::executer() {
 }
 
 void NoeudOperateurBinaire::traduitenCpp(ostream & cout, unsigned int indentation) const{
-    
+    if(m_operandeDroit!=nullptr){
+       cout<< setw(4*indentation)<<""<<((SymboleValue*)m_operandeGauche)->getChaine()<<m_operateur.getChaine()<<((SymboleValue*)m_operandeDroit)->getChaine()<<";"<<endl;
+    }
+    else{
+       cout<<setw(4*indentation)<<""<<((SymboleValue*)m_operandeGauche)->getChaine()<<";"<<endl;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
