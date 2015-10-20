@@ -1,0 +1,18 @@
+procedure principale()
+    a=0;
+    pour(;a<1;a=a+1)
+        ecrire("bouble1");
+    finpour
+    pour(a=0;a<2;)
+        ecrire("boucle2");
+        a=a+1;
+    finpour
+    a=0;
+    pour(;a<3;)
+        ecrire("boucle3");
+        a=a+1;
+    finpour
+    pour(a=0;a<4;a=a+1)
+        ecrire("boucle4");
+    finpour
+finproc

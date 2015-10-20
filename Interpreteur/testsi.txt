@@ -1,0 +1,20 @@
+procedure principale()
+    ecrire("saisir x:");
+    lire(x);
+    a=1;
+    si(x<10)
+        ecrire("la valeur de x:",x);
+        ecrire("la valeur de a:",a);
+        ecrire("la somme de a+x=",a+x);
+    sinonsi((x>10) et (x<20))
+        a=6;
+        ecrire("la valeur de x:",x);
+        ecrire("la valeur de a:",a);
+        ecrire("la somme de a+x=",a+x);
+    sinon
+        a=12;
+        ecrire("la valeur de x:",x);
+        ecrire("la valeur de a:",a);
+        ecrire("la somme de a-x=",a-x);
+    finsi
+finproc    

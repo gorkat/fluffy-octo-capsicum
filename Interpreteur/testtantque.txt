@@ -1,0 +1,17 @@
+procedure principale()
+    ecrire("saisir x:");
+    lire(x);
+    a=1;
+    tantque(a<10)
+        a=a+1;
+    fintantque
+    ecrire("la valeur de a et :",a);
+    tantque(non(a<5))
+        a=a-1;
+    fintantque
+    ecrire("la valeur de a et :",a);
+    tantque((a<15) et (x!=0))
+        a=a+1;
+    fintantque
+    ecrire("la valeur de a et :",a);
+finproc 

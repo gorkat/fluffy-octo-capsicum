@@ -1,0 +1,7 @@
+procedure principale()
+    j=0;
+    repeter
+        j = j + 30;
+    jusqua(j > 100)
+    ecrire(j);
+finproc
