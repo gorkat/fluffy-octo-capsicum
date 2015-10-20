@@ -19,8 +19,10 @@ procedure principale()
   tantque (l<20)
     l=l+1;
   fintantque
-  pour(t=0;t<10;t=t+1)
+  t=0;
+  pour(;t<10;)
     j=j+1;
+    t=t+1;
   finpour
 j = 0;
 repeter

@@ -24,8 +24,11 @@ void NoeudSeqInst::ajoute(Noeud* instruction) {
 
 void NoeudSeqInst::traduitenCpp(ostream & cout, unsigned int indentation) const{
     for(int i=0;i<m_instructions.size();i++){
-        m_instructions[i]->traduitenCpp(cout,0);
-        cout<<";"<<endl;
+        m_instructions[i]->traduitenCpp(cout,indentation);
+        if(typeid(*m_instructions[i])!=typeid(NoeudInstPour)&&typeid(*m_instructions[i])!=typeid(NoeudInstTantQue)&&typeid(*m_instructions[i])!=typeid(NoeudInstSi)){
+            cout<<";";
+        }
+        cout<<endl;
     }
 }
 
@@ -44,10 +47,19 @@ int NoeudAffectation::executer() {
 }
 
 void NoeudAffectation::traduitenCpp(ostream & cout, unsigned int indentation) const{
-    cout<< setw(4*indentation)<<""<<((Symbole*)m_variable)->getChaine()<<"=";
-//    if (typeid())
-    m_expression->traduitenCpp(cout,indentation);    
-    cout<<";"<<endl;
+    if(typeid(*m_expression)==typeid(NoeudOperateurBinaire)){
+           cout<< setw(4*indentation)<<""<<((SymboleValue*)m_variable)->getChaine()<<"=";
+           m_expression->traduitenCpp(cout,0);
+    }
+    else{
+          cout<< setw(4*indentation)<<""<<((SymboleValue*)m_variable)->getChaine()<<"=";
+          if(typeid(*m_expression)==typeid(SymboleValue) &&  *((SymboleValue*)m_expression)== "<VARIABLE>" ){
+              cout<<((SymboleValue*)m_expression)->getChaine();
+          }
+          else{
+              cout<<((SymboleValue*)m_expression)->executer();
+          }
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -83,12 +95,17 @@ int NoeudOperateurBinaire::executer() {
 }
 
 void NoeudOperateurBinaire::traduitenCpp(ostream & cout, unsigned int indentation) const{
-    if(m_operandeDroit!=nullptr){
-       cout<< setw(4*indentation)<<""<<((SymboleValue*)m_operandeGauche)->getChaine()<<m_operateur.getChaine()<<((SymboleValue*)m_operandeDroit)->getChaine()<<";"<<endl;
+    cout<< setw(4*indentation)<<""<<((SymboleValue*)m_operandeGauche)->getChaine();
+    if(m_operateur=="et"){
+       cout<<"&&"; 
+    }
+    else if(m_operateur=="ou"){
+        cout<<"||";
     }
     else{
-       cout<<setw(4*indentation)<<""<<((SymboleValue*)m_operandeGauche)->getChaine()<<";"<<endl;
+       cout<<m_operateur.getChaine(); 
     }
+    cout<<((SymboleValue*)m_operandeDroit)->getChaine();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -109,7 +126,7 @@ int NoeudInstSi::executer() {
      }
      else if(i==m_conditionsinonsi.size()-1&& m_conditionsinonsi.size()<m_sequencesinonsi.size() &&executer==0)
      {    
-         m_sequencesinonsi[i]->executer();
+         m_sequencesinonsi[i+1]->executer();
          executer=1;
      } 
      i++;
@@ -134,9 +151,9 @@ void NoeudInstSi::traduitenCpp(ostream & cout, unsigned int indentation) const{
           cout<<setw(4*indentation) <<""<<"}"<<endl;
         }
         else{
-          cout << setw(4*indentation) << "" << "else {";
+          cout << setw(4*indentation) << "" << "else {"<<endl;
           m_sequencesinonsi[i]->traduitenCpp(cout, indentation+1);
-          cout<<setw(4*indentation) <<""<<"}"<<endl;
+          cout<<setw(4*indentation) <<""<<"}";
         }
     }   
 }
@@ -159,7 +176,7 @@ void NoeudInstTantQue::traduitenCpp(ostream & cout, unsigned int indentation) co
     m_condition->traduitenCpp(cout,0);
     cout<<") {"<<endl;
     m_sequence->traduitenCpp(cout,indentation+1);
-    cout<<setw(4*indentation) <<""<<"}"<<endl;
+    cout<<setw(4*indentation) <<""<<"}";
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -184,15 +201,31 @@ int NoeudInstPour::executer() {
 }
 
 void NoeudInstPour::traduitenCpp(ostream & cout, unsigned int indentation) const{
-    cout << setw(4*indentation) << "" << "while (";
-    m_condition1->traduitenCpp(cout,0);
-    cout<<";";
-    m_condition2->traduitenCpp(cout,0);
-    cout<<";";
-    m_condition3->traduitenCpp(cout,0);
-    cout<<") {"<<endl;
-    m_sequence->traduitenCpp(cout,indentation+1);
-    cout<<setw(4*indentation) <<""<<"}"<<endl;
+    if(m_condition1==nullptr || m_condition3==nullptr){
+        if(m_condition1!=nullptr){
+            m_condition1->traduitenCpp(cout,indentation);
+            cout<<";"<<endl;
+        }
+        cout << setw(4*indentation) << "" << "while (";
+        m_condition2->traduitenCpp(cout,0);
+        cout<<") {"<<endl;
+        m_sequence->traduitenCpp(cout,indentation+1);
+        if(m_condition3!=nullptr){
+            m_condition3->traduitenCpp(cout,indentation+1);
+            cout<<";"<<endl;
+        }
+    }
+    else{
+        cout << setw(4*indentation) << "" << "for (";
+        m_condition1->traduitenCpp(cout,0);
+        cout<<";";
+        m_condition2->traduitenCpp(cout,0);
+        cout<<";";
+        m_condition3->traduitenCpp(cout,0);
+        cout<<") {"<<endl;
+        m_sequence->traduitenCpp(cout,indentation+1);
+    }
+    cout<<setw(4*indentation) <<""<<"}";
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -222,14 +255,18 @@ int NoeudInstEcrire::executer(){
 }
 
 void NoeudInstEcrire::traduitenCpp(ostream & cout, unsigned int indentation) const{
-    cout << setw(4*indentation) << "" << "cout <<";
+    cout << setw(4*indentation) << "" << "cout<<";
     for(int i=0;i<m_message.size();i++){
-        m_message[i]->traduitenCpp(cout,0);
-        if(m_message.size()>1){
+        if(typeid(*m_message[i])==typeid(SymboleValue) && (*((SymboleValue*)m_message[i])== "<CHAINE>" ||  *((SymboleValue*)m_message[i])== "<VARIABLE>" )){
+            cout<<((SymboleValue*)m_message[i])->getChaine();
+        }
+        else{
+            ((SymboleValue*)m_message[i])->traduitenCpp(cout,0);
+        }
+        if(m_message.size()>1 && i<m_message.size()-1){
             cout<<"<<";
         }
     }
-    cout<<";"<<endl;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -250,7 +287,7 @@ void NoeudRepeter::traduitenCpp(ostream & cout, unsigned int indentation) const{
     m_seqInst->traduitenCpp(cout,indentation+1);
     cout<<setw(4*indentation) <<""<<"} while(!";
     m_condition->traduitenCpp(cout,0);
-    cout<<");"<<endl;
+    cout<<")";
     
 }
 ////////////////////////////////////////////////////////////////////////////////
@@ -271,8 +308,9 @@ int NoeudInstLire::executer(){
 
 void NoeudInstLire::traduitenCpp(ostream & cout, unsigned int indentation) const{
     for(int i=0;i<m_variable.size();i++){
-        cout << setw(4*indentation) << "" << "cin >>";
-        m_variable[i]->traduitenCpp(cout,0);
-        cout<<");"<<endl;
+        cout << setw(4*indentation) << "" << "cin>>";
+        if(typeid(*m_variable[i])==typeid(SymboleValue) &&  *((SymboleValue*)m_variable[i])== "<VARIABLE>" ){ 
+              cout<<((SymboleValue*)m_variable[i])->getChaine();
+        }
     }  
 }      
