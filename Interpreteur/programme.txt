@@ -15,8 +15,8 @@ procedure principale()
   sinon
     a=3;
     j=3;
-  finsi
-  tantque (l<20)
+  
+  tantque l<20
     l=l+1;
   fintantque
   t=0;
@@ -28,10 +28,10 @@ j = 0;
 repeter
     j = j + 30;
 jusqua(j > 100)
-ecrire("la valeur de i+a=",i+a);
-ecrire("saisir m:");
+ecrire("la valeur de i+a=",i+a)
+ecrire("saisir m:);
 lire(m);
-ecrire("saisir p:");
+ecrire("saisir p:")
 lire(p);
 finproc
 # Commentaire Final
